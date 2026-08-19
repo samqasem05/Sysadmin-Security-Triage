@@ -1,9 +1,9 @@
-﻿# Scenario: "My Internet is Broken & I Can't Print"
+# Scenario: "My Internet is Broken & I Can't Print"
 
 $Flushdns = Clear-DnsClientCache
 $ResetAdapter = Restart-NetAdapter -Name "thewifi"
 $TestPrinter = ping 192.168.1.250
-$TestPrinterConnection = Test-NetConnection -port 9100
+$TestPrinterConnection = Test-NetConnection -port 9100 -ComputerName 192.168.1.250
 $dhcpReset = ipconfig /release 
 $DHcpReset2b= ipconfig /renew
 
@@ -14,8 +14,8 @@ $DHcpReset2b= ipconfig /renew
 $Getallcurrentusers = Get-LocalUser
 $getUserProvelage = get-localgroupmember -Group administrators
 $disablebackdoor = Disable-LocalUser -Name "backdoor_user"
-$checkforoutboundconn = Get-process -IncludeUserName "backdoor"
-$checkforopenconn = Get-NetTCPConnection -OwningProcess $checkforoutboundconn.name
+$checkforoutboundconn = Get-process -IncludeUserName | where-object {$_.name -like "backdoor"}
+$checkforopenconn = Get-NetTCPConnection -OwningProcess $checkforoutboundconn.Id
 
 
 # Scenario: The Persistent "Ghost Process" Ransomware Indicator
