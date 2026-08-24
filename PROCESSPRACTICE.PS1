@@ -50,4 +50,4 @@ if($parentname -like "cmd*" -or $parentname -like "powershell*"){
 
 }
 
-$layout | Out-GridVie
+$layout | Out-GridVieW
